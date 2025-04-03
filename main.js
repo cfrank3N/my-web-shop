@@ -142,7 +142,9 @@ function populateProductPopUp(index){
   document.getElementById('modal-desc').textContent = products[index].description;
   document.getElementById('modal-img').src = products[index].image;
 }
-  
+
+
+//Add items to cart, save them in local storage
 function addToCart(product) {
   
   if (localStorage.getItem("basket") === null) {
@@ -153,5 +155,48 @@ function addToCart(product) {
   let basket = JSON.parse(localStorage.getItem("basket"));
   basket.push(product);
   localStorage.setItem("basket", JSON.stringify(basket));
+
+}
+
+//populate basket
+function populateCart() {
+
+  let basketLayout = document.getElementById("basket");
+  let content = `<h3 class="my-5 fw-bold">Your cart</h3>`;
+
+  if (localStorage.getItem("basket")) {
+
+    let basket = JSON.parse(localStorage.getItem("basket"));
+
+    basket.forEach( (item) => {
+      content += `
+      <div class="col-sm-7 my-3">
+        <div class="card p-3 border-0 rounded-5 shadow-sm">
+          <div class="row g-0 align-items-center">
+            <div class="col-md-4">
+              <img
+                id="product-img"
+                src="${item.image}"
+                class="img-fluid rounded-4"
+                alt="Product Image"
+              />
+            </div>
+
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="text-muted mb-1" id="product-name">
+                  ${item.title}
+                </h5>
+
+                <h3 class="fw-bold" id="product-price">Price €${item.price.toFixed(2)}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    })
+  } 
+
+  basketLayout.innerHTML = content;
 
 }
