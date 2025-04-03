@@ -159,7 +159,7 @@ function addToCart(product) {
 }
 
 //populate basket
-function populateCart() {
+function populateBasket() {
 
   let basketLayout = document.getElementById("basket");
   let content = `<h3 class="my-5 fw-bold">Your cart</h3>`;
@@ -178,7 +178,7 @@ function populateCart() {
               type="button"
               class="btn-close float-end mt-2 me-2"
               aria-label="Close"
-              onclick="removeFromBasket(${basket.indexOf(item)}); populateCart();"
+              onclick="removeFromBasket(${basket.indexOf(item)}); populateBasket();"
             ></button>
           </div>
           <div class="row g-0 align-items-center">
@@ -186,7 +186,7 @@ function populateCart() {
               <img
                 id="product-img"
                 src="${item.image}"
-                class="card-img img-fluid rounded-4 w-75 h-75 object-fit-cover"
+                class="card-img img-fluid rounded-4 w-50 h-50 object-fit-cover"
                 alt="Product Image"
               />
             </div>
@@ -200,6 +200,11 @@ function populateCart() {
                 <h3 class="fw-bold" id="product-price">Price €${item.price.toFixed(2)}</h3>
               </div>
             </div>
+          </div>
+          <div class="card-footer bg-white border-0 p-0">
+            <button class="btn btn-custom text-white rounded-start-0 rounded-end-5 float-end">+</button>
+            <button class="btn btn-custom text-white rounded-0 float-end">0</button>
+            <button class="btn btn-custom text-white rounded-start-5 rounded-end-0 float-end">-</button>
           </div>
         </div>
       </div>
@@ -220,6 +225,20 @@ function removeFromBasket(index) {
     basket.splice(index, 1);
 
     localStorage.setItem("basket", JSON.stringify(basket));
+  }
+
+}
+
+function emptyBasket() {
+
+  if (localStorage.getItem("basket")) {
+
+    let basket = JSON.parse(localStorage.getItem("basket"));
+
+    basket.splice(0, basket.length);
+
+    localStorage.setItem("basket", JSON.stringify(basket));
+
   }
 
 }

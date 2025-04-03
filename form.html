@@ -13,7 +13,7 @@
     />
   </head>
 
-  <body onload="populateCart()">
+  <body onload="populateBasket()">
     <style>
       .btn-custom {
         background-color: #eb5e28;
@@ -94,7 +94,17 @@
     </nav>
     <!--End of Nav-bar-->
     <!--Start of card layout-->
-    <div class="container" id="basket">
+    <div class="container" id="basket"></div>
+    <div class="container">
+      <div class="col-sm-7">
+        <button
+          class="btn btn-custom text-white rounded-pill shadow"
+          id="empty-basket"
+          onclick="emptyBasket(); populateBasket();"
+        >
+          Empty basket
+        </button>
+      </div>
     </div>
     <!--End of card layout-->
     <!--Start of Form-->
