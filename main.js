@@ -180,11 +180,8 @@ function populateBasket() {
       basketMap.set(itemAsString, count + 1);
     });
     
-    console.log(basketMap);
-
     basketMap.forEach((value, key) => {
       let item = JSON.parse(key);
-      console.log(typeof key)
       content += `<div class="row">
       <div class="col-sm-7 my-3">
         <div class="card h-100 p-3 border-0 rounded-5 shadow-sm">
@@ -265,7 +262,7 @@ function removeFromBasket(itemID) {
       }
     })
 
-    basketMap.forEach((val, key) => console.log(key === itemToRemove));
+
 
     localStorage.setItem("basket", JSON.stringify(newBasket));
   }
