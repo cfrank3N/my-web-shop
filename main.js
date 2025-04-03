@@ -141,27 +141,8 @@ function populateProductPopUp(index){
   document.getElementById('modal-price').textContent = `€${products[index].price.toFixed(2)}`;
   document.getElementById('modal-desc').textContent = products[index].description;
   document.getElementById('modal-img').src = products[index].image;
-
-  const buyBtn = document.querySelector('#productModal .btn-custom');
-  buyBtn.href = `form.html?title=${encodeURIComponent(products[index].title)}&price=${products[index].price.toFixed(2)}&image=${encodeURIComponent(products[index].image)}`;
 }
-
-function getQueryParams() {
-  const params = new URLSearchParams(window.location.search);
-  return {
-    title: params.get('title') || 'Unknown Product',
-    price: params.get('price') || '0.00',
-    image: params.get('image') || 'img/nav/bioglow.png'
-  };
-}
-
-/*document.addEventListener("DOMContentLoaded", function() {
-  const product = getQueryParams();
-  document.getElementById('product-name').textContent = product.title;
-  document.getElementById('product-price').textContent = `€${product.price}`;
-  document.getElementById('product-img').src = product.image;
-});*/
-
+  
 function addToCart(product) {
   
   if (localStorage.getItem("basket") === null) {
