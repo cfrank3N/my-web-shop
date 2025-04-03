@@ -158,6 +158,10 @@ function addToCart(product) {
 
 }
 
+//Global Map of items in basket and the amount of times 
+// they appear in the array basket from local storage
+let basketMap = new Map();
+
 //populate basket
 function populateBasket() {
 
@@ -168,17 +172,29 @@ function populateBasket() {
 
     let basket = JSON.parse(localStorage.getItem("basket"));
 
-    basket.forEach( (item) => {
-      content += `
-      <div class="row">
+    basketMap.clear();
+
+    basket.forEach(item => {
+      let itemAsString = JSON.stringify(item);
+      let count = basketMap.get(itemAsString) || 0;
+      basketMap.set(itemAsString, count + 1);
+    });
+    
+    console.log(basketMap);
+
+    basketMap.forEach((value, key) => {
+      let item = JSON.parse(key);
+      console.log(typeof key)
+      content += `<div class="row">
       <div class="col-sm-7 my-3">
         <div class="card h-100 p-3 border-0 rounded-5 shadow-sm">
           <div class="card-header bg-white border-0 mb-0 p-0">
             <button
               type="button"
               class="btn-close float-end mt-2 me-2"
+              id="remove-item"
               aria-label="Close"
-              onclick="removeFromBasket(${basket.indexOf(item)}); populateBasket();"
+              onclick="removeFromBasket(${item.id}); populateBasket();"
             ></button>
           </div>
           <div class="row g-0 align-items-center">
@@ -203,28 +219,44 @@ function populateBasket() {
           </div>
           <div class="card-footer bg-white border-0 p-0">
             <button class="btn btn-custom text-white rounded-start-0 rounded-end-5 float-end">+</button>
-            <button class="btn btn-custom text-white rounded-0 float-end">0</button>
+            <button class="btn btn-custom text-white rounded-0 float-end">${value}</button>
             <button class="btn btn-custom text-white rounded-start-5 rounded-end-0 float-end">-</button>
           </div>
         </div>
       </div>
-      </div>`;
-    })
-  } 
+      </div>
+      `;
+    });
+  } else {
+    basketMap.clear();
+  }
 
   basketLayout.innerHTML = content;
 
 }
 
-function removeFromBasket(index) {
+function removeFromBasket(itemID) {
 
+  itemID = Number(itemID);
+  
   if (localStorage.getItem("basket")) {
 
     let basket = JSON.parse(localStorage.getItem("basket"));
 
-    basket.splice(index, 1);
+    let itemToRemove = "";
+    let newBasket = [];
 
-    localStorage.setItem("basket", JSON.stringify(basket));
+    basket.forEach(item => {
+      if (item.id === itemID) {
+        itemToRemove = JSON.stringify(item);
+      } else {
+        newBasket.push(item);
+      }
+    })
+
+    basketMap.forEach((val, key) => console.log(key === itemToRemove));
+
+    localStorage.setItem("basket", JSON.stringify(newBasket));
   }
 
 }
@@ -236,6 +268,8 @@ function emptyBasket() {
     let basket = JSON.parse(localStorage.getItem("basket"));
 
     basket.splice(0, basket.length);
+    
+    basketMap.clear();
 
     localStorage.setItem("basket", JSON.stringify(basket));
 
