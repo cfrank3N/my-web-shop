@@ -234,11 +234,22 @@ function populateBasket() {
   basketLayout.innerHTML = content;
 
 }
+/*
+Function that removes an item in it's entirety from the basket.
+
+Function gets the id of a product as an argument.
+Converts that id to a number and checks if there's a current basket-array in local storage.
+If there is it gets the stored array, then it does two things in the forEach loop:
+If the argument passed to the function matches the current items id, it stores that item-object as a string
+in the variable itemToRemove. If the argument passed to the function doesn't match the current items id
+it instead adds it to the variable newBasket. itemToRemove is then removed from the Map basketMap,
+and the new array newBasket is entered into local storage as the new "basket".
+*/
 
 function removeFromBasket(itemID) {
 
   itemID = Number(itemID);
-  
+
   if (localStorage.getItem("basket")) {
 
     let basket = JSON.parse(localStorage.getItem("basket"));
@@ -260,6 +271,12 @@ function removeFromBasket(itemID) {
   }
 
 }
+
+/*
+Empties the entire basket in local storage if there is one.
+It also clears the Map basketMap since it get's it information from the 
+basket array stored in local storage.
+*/
 
 function emptyBasket() {
 
