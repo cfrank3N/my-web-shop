@@ -115,7 +115,7 @@ async function populateProducts() {
                 <!-- bottom section -->
                 <div class="d-flex justify-content-between align-items-center mx-4 mb-4">
                     <span class="price-text">€${products[i].price.toFixed(2)}</span>
-                    <a href="form.html?title=${encodeURIComponent(products[i].title)}&price=${products[i].price.toFixed(2)}&image=${encodeURIComponent(products[i].image)}" class="btn btn-custom px-4 py-2 rounded-5">Buy</a> 
+                    <button class="btn btn-custom px-4 py-2 rounded-5" onclick="addToCart(products[${i}])">Add to cart</a> 
                 </div>
             </div>
         </div>`
@@ -141,23 +141,17 @@ function populateProductPopUp(index){
   document.getElementById('modal-price').textContent = `€${products[index].price.toFixed(2)}`;
   document.getElementById('modal-desc').textContent = products[index].description;
   document.getElementById('modal-img').src = products[index].image;
-
-  const buyBtn = document.querySelector('#productModal .btn-custom');
-  buyBtn.href = `form.html?title=${encodeURIComponent(products[index].title)}&price=${products[index].price.toFixed(2)}&image=${encodeURIComponent(products[index].image)}`;
 }
+  
+function addToCart(product) {
+  
+  if (localStorage.getItem("basket") === null) {
+    let basket = [];
+    localStorage.setItem("basket", JSON.stringify(basket));
+  }
 
-function getQueryParams() {
-  const params = new URLSearchParams(window.location.search);
-  return {
-    title: params.get('title') || 'Unknown Product',
-    price: params.get('price') || '0.00',
-    image: params.get('image') || 'img/nav/bioglow.png'
-  };
+  let basket = JSON.parse(localStorage.getItem("basket"));
+  basket.push(product);
+  localStorage.setItem("basket", JSON.stringify(basket));
+
 }
-
-document.addEventListener("DOMContentLoaded", function() {
-  const product = getQueryParams();
-  document.getElementById('product-name').textContent = product.title;
-  document.getElementById('product-price').textContent = `€${product.price}`;
-  document.getElementById('product-img').src = product.image;
-});
