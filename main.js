@@ -115,7 +115,7 @@ async function populateProducts() {
                 <!-- bottom section -->
                 <div class="d-flex justify-content-between align-items-center mx-4 mb-4">
                     <span class="price-text">€${products[i].price.toFixed(2)}</span>
-                    <button class="btn btn-custom px-4 py-2 rounded-5" onclick="addToCart(products[${i}])">Add to cart</a> 
+                    <button class="btn btn-custom px-4 py-2 rounded-5" onclick="addToCart(products[${i}])">Add</a> 
                 </div>
             </div>
         </div>`
@@ -170,20 +170,29 @@ function populateCart() {
 
     basket.forEach( (item) => {
       content += `
+      <div class="row">
       <div class="col-sm-7 my-3">
-        <div class="card p-3 border-0 rounded-5 shadow-sm">
+        <div class="card h-100 p-3 border-0 rounded-5 shadow-sm">
+          <div class="card-header bg-white border-0 mb-0 p-0">
+            <button
+              type="button"
+              class="btn-close float-end mt-2 me-2"
+              aria-label="Close"
+              onclick="removeFromBasket(${basket.indexOf(item)}); populateCart();"
+            ></button>
+          </div>
           <div class="row g-0 align-items-center">
             <div class="col-md-4">
               <img
                 id="product-img"
                 src="${item.image}"
-                class="img-fluid rounded-4"
+                class="card-img img-fluid rounded-4 w-75 h-75 object-fit-cover"
                 alt="Product Image"
               />
             </div>
 
-            <div class="col-md-8">
-              <div class="card-body">
+            <div class="col-md-8 d-flex flex-column justify-content-center">
+              <div class="card-body d-flex flex-column justify-content-center h-100">
                 <h5 class="text-muted mb-1" id="product-name">
                   ${item.title}
                 </h5>
@@ -193,10 +202,24 @@ function populateCart() {
             </div>
           </div>
         </div>
+      </div>
       </div>`;
     })
   } 
 
   basketLayout.innerHTML = content;
+
+}
+
+function removeFromBasket(index) {
+
+  if (localStorage.getItem("basket")) {
+
+    let basket = JSON.parse(localStorage.getItem("basket"));
+
+    basket.splice(index, 1);
+
+    localStorage.setItem("basket", JSON.stringify(basket));
+  }
 
 }
