@@ -174,6 +174,8 @@ function populateBasket() {
 
     basketMap.clear();
 
+    basket = basket.sort((x, y) => x.id - y.id);
+  
     basket.forEach(item => {
       let itemAsString = JSON.stringify(item);
       let count = basketMap.get(itemAsString) || 0;
@@ -215,9 +217,9 @@ function populateBasket() {
             </div>
           </div>
           <div class="card-footer bg-white border-0 p-0">
-            <button class="btn btn-custom text-white rounded-start-0 rounded-end-5 float-end">+</button>
+            <button class="btn btn-custom text-white rounded-start-0 rounded-end-5 float-end" onclick="addOneItem(${item.id}); populateBasket();">+</button>
             <button class="btn btn-custom text-white rounded-0 float-end">${value}</button>
-            <button class="btn btn-custom text-white rounded-start-5 rounded-end-0 float-end">-</button>
+            <button class="btn btn-custom text-white rounded-start-5 rounded-end-0 float-end" onclick="removeOneItem(${item.id}); populateBasket();">-</button>
           </div>
         </div>
       </div>
@@ -290,3 +292,52 @@ function emptyBasket() {
   }
 
 }
+
+function addOneItem(itemID) {
+
+  itemID = Number(itemID);
+
+  if (localStorage.getItem("basket")) {
+    let basket = JSON.parse(localStorage.getItem("basket"));
+    
+    for (item of basket) {
+      if (item.id === itemID) {
+        let newItem = item;
+        basket.push(newItem);
+        localStorage.setItem("basket", JSON.stringify(basket));
+        break;
+      }
+    }
+  }
+}
+
+function removeOneItem(itemID) {
+
+  itemID = Number(itemID);
+
+  let basketItem = "";
+
+  if (localStorage.getItem("basket")) {
+    let basket = JSON.parse(localStorage.getItem("basket"));
+    
+    basketMap.forEach((value, key) => {
+      item = JSON.parse(key);
+
+      if (item.id === itemID) {
+        basketItem = JSON.stringify(item);
+      }
+    });
+
+    if (basketMap.get(basketItem) > 1) {
+      for (item of basket) {
+        if (item.id === itemID) {
+          let index = basket.indexOf(item);
+          basket.splice(index, 1);
+          break;
+        }
+      }
+    } 
+    localStorage.setItem("basket", JSON.stringify(basket));
+  }
+}
+
