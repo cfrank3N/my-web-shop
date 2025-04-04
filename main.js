@@ -170,7 +170,7 @@ let basketMap = new Map();
 function populateBasket() {
 
   let basketLayout = document.getElementById("basket");
-  let content = `<h3 class="my-5 fw-bold">Your cart</h3>`;
+  let content = `<h3 class="mt-5 fw-bold">Your cart</h3>`;
 
   if (localStorage.getItem("basket")) {
 
@@ -209,7 +209,7 @@ function populateBasket() {
               <img
                 id="product-img"
                 src="${item.image}"
-                class="card-img img-fluid rounded-4 w-50 h-50 object-fit-cover"
+                class="card-img img-fluid rounded-4 w-75"
                 alt="Product Image"
               />
             </div>
@@ -228,6 +228,7 @@ function populateBasket() {
             <button class="btn btn-custom text-white rounded-start-0 rounded-end-5 float-end" onclick="addOneItem(${item.id}); populateBasket();">+</button>
             <button class="btn btn-custom text-white rounded-0 float-end">${value}</button>
             <button class="btn btn-custom text-white rounded-start-5 rounded-end-0 float-end" onclick="removeOneItem(${item.id}); populateBasket();">-</button>
+            <h6 class=" text-center mt-2 w-50 border-bottom rounded-pill ">Total cost: €${calcPrice(item.price, value).toFixed(2)}</h6>
           </div>
         </div>
       </div>
@@ -239,7 +240,8 @@ function populateBasket() {
   }
 
   basketLayout.innerHTML = content;
-
+  orderCost();
+  orderSummary();
 }
 /*
 Function that removes an item in it's entirety from the basket.
@@ -349,3 +351,55 @@ function removeOneItem(itemID) {
   }
 }
 
+function calcPrice(price, amountOfProduct) {
+  return price * amountOfProduct;
+}
+
+function orderCost() {
+  if (localStorage.getItem("basket")) {
+
+    //Get current basket from local storage
+    let basket = JSON.parse(localStorage.getItem("basket"));
+
+    //Get elements to update
+    let totalCost = document.getElementById("order-cost");
+
+    //Assign total price of basket in order summary
+    sumOfBasket = 0;
+    basket.forEach(item => sumOfBasket += item.price);
+    totalCost.innerHTML = `Total cost: €${sumOfBasket.toFixed(2)}`;
+
+  }
+}
+
+function orderSummary() {
+
+  //Get elements to update
+  let summary = document.getElementById("order-summary");
+  
+  //Set elements innerHTML to blank
+  summary.innerHTML = "";
+
+  //Assign innerHTML per item in basketMap
+  basketMap.forEach((value, key) => {
+    let item = JSON.parse(key);
+    let val = Number(value);
+    summary.innerHTML += `
+                <tr>
+                  <td class="font-weight-normal" scope="col">
+                    ${getFirstFiveWords(item.title)}
+                  </td>
+                  <td scope="col">x ${val}</td>
+                  <td scope="col">${calcPrice(item.price, val).toFixed(2)}</td>
+                </tr>
+                `
+  });
+}
+
+/*
+<img
+                      src="${item.image}"
+                      class="img-fluid"
+                      alt="Product Image"
+                    />
+ */
