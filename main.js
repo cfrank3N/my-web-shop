@@ -147,11 +147,14 @@ function populateProductPopUp(index){
 //Add items to cart, save them in local storage
 function addToCart(product) {
   
+  //If empty initialize an empty array and store it in local storage
   if (localStorage.getItem("basket") === null) {
     let basket = [];
     localStorage.setItem("basket", JSON.stringify(basket));
   }
 
+  //Get the array from local storage and add the item to the array.
+  //Then insert the updated array into local storage.
   let basket = JSON.parse(localStorage.getItem("basket"));
   basket.push(product);
   localStorage.setItem("basket", JSON.stringify(basket));
@@ -160,6 +163,7 @@ function addToCart(product) {
 
 //Global Map of items in basket and the amount of times 
 // they appear in the array basket from local storage
+//key=JSON object as string value=number of key item in local storage
 let basketMap = new Map();
 
 //populate basket
@@ -172,14 +176,18 @@ function populateBasket() {
 
     let basket = JSON.parse(localStorage.getItem("basket"));
 
+    //Clear the map of JSON-strings to update it so that it 
+    //reflects the current state of the array in local storage
     basketMap.clear();
 
+    //kind of sort the array to prevent items changing order with themselves on the basket page
     basket = basket.sort((x, y) => x.id - y.id);
   
+    //Update map
     basket.forEach(item => {
-      let itemAsString = JSON.stringify(item);
-      let count = basketMap.get(itemAsString) || 0;
-      basketMap.set(itemAsString, count + 1);
+      let itemAsString = JSON.stringify(item); //Convert intem to string to make it a unique entry in the map
+      let count = basketMap.get(itemAsString) || 0; //Tries to get the value of the key item from the map. Otherwise 0
+      basketMap.set(itemAsString, count + 1); //Updates the value of the key item, or inserts it if the item doesn't exist
     });
     
     basketMap.forEach((value, key) => {
