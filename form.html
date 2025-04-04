@@ -13,7 +13,7 @@
     />
   </head>
 
-  <body>
+  <body onload="populateBasket()">
     <style>
       .btn-custom {
         background-color: #eb5e28;
@@ -93,32 +93,20 @@
       </div>
     </nav>
     <!--End of Nav-bar-->
+    <div class="container" id="testMap">
+      
+    </div>
     <!--Start of card layout-->
+    <div class="container" id="basket"></div>
     <div class="container">
-      <h3 class="my-5 fw-bold">Your cart</h3>
       <div class="col-sm-7">
-        <div class="card p-3 border-0 rounded-5 shadow-sm">
-          <div class="row g-0 align-items-center">
-            <div class="col-md-4">
-              <img
-                id="product-img"
-                src="img/nav/bioglow.png"
-                class="img-fluid rounded-4"
-                alt="Product Image"
-              />
-            </div>
-
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="text-muted mb-1" id="product-name">
-                  Product Name Unknown Product
-                </h5>
-
-                <h3 class="fw-bold" id="product-price">Price SEK 0.00</h3>
-              </div>
-            </div>
-          </div>
-        </div>
+        <button
+          class="btn btn-custom text-white rounded-pill shadow"
+          id="empty-basket"
+          onclick="emptyBasket(); populateBasket();"
+        >
+          Empty basket
+        </button>
       </div>
     </div>
     <!--End of card layout-->
