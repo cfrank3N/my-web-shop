@@ -123,6 +123,14 @@ async function populateProducts() {
 
   output += `</div>`;
   document.getElementById('prod-container').innerHTML = output;
+
+  if (localStorage.getItem("basket") !== null) {
+
+    let basket = JSON.parse(localStorage.getItem("basket"));
+
+    updateBasketIcon(basket.length);
+  }
+
 }
 
 function getFirstFiveWords(text) {
@@ -158,6 +166,13 @@ function addToCart(product) {
   let basket = JSON.parse(localStorage.getItem("basket"));
   basket.push(product);
   localStorage.setItem("basket", JSON.stringify(basket));
+
+  updateBasketIcon(basket.length);
+}
+
+function updateBasketIcon(number) {
+  let basketIcon = document.getElementById("basket-icon");
+  basketIcon.innerHTML = number;
 
 }
 
@@ -196,14 +211,18 @@ function populateBasket() {
       <div class="row">
       <div class="col-sm-7 my-3">
         <div class="card h-100 p-3 border-0 rounded-5 shadow-sm">
-          <div class="card-header bg-white border-0 mb-0 p-0">
+          <div class="card-header bg-white border-0 m-0 p-0">
             <button
               type="button"
-              class="btn-close float-end mt-2 me-2"
+              class="btn float-end "
               id="remove-item"
               aria-label="Close"
               onclick="removeFromBasket(${item.id}); populateBasket();"
-            ></button>
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+              </svg>
+            </button>
           </div>
           <div class="row g-0 align-items-center">
             <div class="col-md-4">
@@ -254,13 +273,15 @@ function populateBasket() {
       </div>
       `;
     });
+
+    updateBasketIcon(basket.length);
   } else {
     basketMap.clear();
   }
 
   basketLayout.innerHTML = content;
+
   orderCost();
-  //orderSummary();
 }
 /*
 Function that removes an item in it's entirety from the basket.
