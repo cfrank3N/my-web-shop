@@ -64,6 +64,7 @@ function validateFields(e) {
     if (validInputs === values.length) {
       let success = new bootstrap.Modal(document.getElementById("paymentAccepted"));
       success.show();
+      emptyBasket();
     }
   }
 }
