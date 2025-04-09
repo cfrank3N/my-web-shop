@@ -260,7 +260,7 @@ function populateBasket() {
 
   basketLayout.innerHTML = content;
   orderCost();
-  orderSummary();
+  //orderSummary();
 }
 /*
 Function that removes an item in it's entirety from the basket.

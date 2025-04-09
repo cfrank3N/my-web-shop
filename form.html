@@ -100,41 +100,27 @@
     <div class="container" id="testMap"></div>
     <!--Start of card layout-->
     <div class="container" id="basket"></div>
-    <div class="container">
-      <div class="col-sm-7">
+  
+    <div class="container my-3">
+      <div class="col-sm-12">
+        <div class="card p-0 border-0 rounded-5 shadow-sm">
+          
+          <div class="card-body text-center">
+            <h3 class="fw-bold my-1" id="order-cost">Total cost:</h3>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="container text-center">
+      <div class="col-sm-12">
         <button
-          class="btn btn-black text-white rounded-pill shadow"
+          class="btn btn-dark btn-black text-white rounded-pill shadow"
           id="empty-basket"
           onclick="emptyBasket(); populateBasket();"
         >
           Empty basket
         </button>
-      </div>
-    </div>
-    <div class="container my-3">
-      <div class="col-sm-12">
-        <div class="card p-0 border-0 rounded-5 shadow-sm">
-          <div class="card-header border-0 btn-custom text-white rounded-top-5">
-            <h4 class="card-title">Order summary</h4>
-          </div>
-          <div class="card-body">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Product</th>
-                  <th scope="col">Amount</th>
-                  <th scope="col">Cost</th>
-                </tr>
-              </thead>
-              <tbody id="order-summary"></tbody>
-            </table>
-          </div>
-          <div
-            class="card-footer border-0 btn-custom text-white rounded-bottom-5 text-center"
-          >
-            <h4 id="order-cost">Total cost:</h4>
-          </div>
-        </div>
       </div>
     </div>
     <!--End of card layout-->
