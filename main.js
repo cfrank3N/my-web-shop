@@ -172,8 +172,13 @@ function addToCart(product) {
 
 function updateBasketIcon(number) {
   let basketIcon = document.getElementById("basket-icon");
-  basketIcon.innerHTML = number;
-
+  
+  if (number === 0) {
+    basketIcon.classList.add("d-none");
+  } else {
+    basketIcon.classList.remove("d-none");
+    basketIcon.innerHTML = number;
+  }
 }
 
 //Global Map of items in basket and the amount of times 
