@@ -192,7 +192,8 @@ function populateBasket() {
     
     basketMap.forEach((value, key) => {
       let item = JSON.parse(key);
-      content += `<div class="row">
+      content += `
+      <div class="row">
       <div class="col-sm-7 my-3">
         <div class="card h-100 p-3 border-0 rounded-5 shadow-sm">
           <div class="card-header bg-white border-0 mb-0 p-0">
@@ -209,8 +210,9 @@ function populateBasket() {
               <img
                 id="product-img"
                 src="${item.image}"
-                class="card-img img-fluid rounded-4 w-75"
+                class="img-fluid rounded-4"
                 alt="Product Image"
+                style="max-height: 7rem;"
               />
             </div>
 
@@ -228,7 +230,24 @@ function populateBasket() {
             <button class="btn btn-custom text-white rounded-start-0 rounded-end-5 float-end" onclick="addOneItem(${item.id}); populateBasket();">+</button>
             <button class="btn btn-custom text-white rounded-0 float-end">${value}</button>
             <button class="btn btn-custom text-white rounded-start-5 rounded-end-0 float-end" onclick="removeOneItem(${item.id}); populateBasket();">-</button>
-            <h6 class=" text-center mt-2 w-50 border-bottom rounded-pill ">Total cost: €${calcPrice(item.price, value).toFixed(2)}</h6>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-7 col-md-5 col-lg-5 my-3">
+        <div class="card h-100 p-3 border-0 rounded-5 shadow-sm">
+          <div class="card-header bg-white border-0 mb-0 p-0">
+          </div>
+          <div class="row g-0 align-items-center h-100">
+            <div class="col-sm-12 d-flex flex-column justify-content-center">
+              <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                <h5 class="text-muted mb-1" id="product-name">
+                  Total price of product
+                </h5>
+                <h3 class="fw-bold" id="product-price">€${calcPrice(item.price, value).toFixed(2)}</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer bg-white border-0 p-0">
           </div>
         </div>
       </div>
