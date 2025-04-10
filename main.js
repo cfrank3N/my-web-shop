@@ -309,18 +309,13 @@ function removeFromBasket(itemID) {
 
     let basket = JSON.parse(localStorage.getItem("basket"));
 
-    let itemToRemove = "";
     let newBasket = [];
 
     basket.forEach(item => {
-      if (item.id === itemID) {
-        itemToRemove = JSON.stringify(item);
-      } else {
+      if (item.id !== itemID) {
         newBasket.push(item);
       }
     })
-
-
 
     localStorage.setItem("basket", JSON.stringify(newBasket));
   }
